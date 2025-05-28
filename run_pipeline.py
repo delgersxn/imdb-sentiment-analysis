@@ -1,5 +1,4 @@
 import time
-import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
@@ -24,11 +23,6 @@ clf, vectorizer = train_model(train_df['review'], train_df['sentiment'])
 print("Evaluating model...") # on test data
 evaluate_model(test_df['review'], test_df['sentiment'])          
 
-end_time = time.time()   
-minutes, seconds = divmod(end_time - start_time, 60)
-print(f"\nTotal time : {int(minutes)} minutes {seconds:.2f} seconds")
-
-
 print("Generating confusion matrix...")
 X_test = vectorizer.transform(test_df['review'])
 y_pred = clf.predict(X_test)
@@ -43,4 +37,10 @@ plt.ylabel("True Label")
 plt.title("Confusion Matrix for IMDb Sentiment Classifier")
 plt.tight_layout()
 plt.savefig("confusion_matrix.png")
-plt.show()
+plt.show(block=False)
+
+end_time = time.time()   
+minutes, seconds = divmod(end_time - start_time, 60)
+print(f"\nTotal time : {int(minutes)} minutes {seconds:.2f} seconds")
+
+input("Press Enter to exit...")
