@@ -1,4 +1,4 @@
-import math # math.log for better number handling
+import math # log for better number handling
 
 class SimpleMultinomialNB:
     def __init__(self, alpha=1.0):
@@ -23,12 +23,12 @@ class SimpleMultinomialNB:
         unique_words_count = len(self.vocabulary)
 
         # 2) train
-        # Initialize counts for each class.
+        # Initialize counts for each class : vectorize
         class_counts = {}  # E.g., { 'pos': 0, 'neg': 0 }
         word_counts_in_class = {} # E.g., { 'pos': {'word1': 0, ...}, 'neg': {'word1': 0, ...} }
         total_words_in_class = {} # E.g., { 'pos': 0, 'neg': 0 }
 
-        # Go through each message and its label
+        # Go through each message and its label 
         for i in range(num_messages):
             label = labels[i]
             words = processed_messages[i]
@@ -43,7 +43,7 @@ class SimpleMultinomialNB:
             for word in words:
                 word_counts_in_class[label][word] = word_counts_in_class[label].get(word, 0) + 1
 
-        # calculate Probabilities with Smoothing
+        # 3) evaluate: calculate Probabilities with Smoothing : classifier
         for label in class_counts:
             # Calculate P(Class) - Class Prior Probability
             self.class_priors[label] = class_counts[label] / num_messages
@@ -79,7 +79,7 @@ class SimpleMultinomialNB:
             for word in processed_message:
                 if word in self.vocabulary: # If word was seen during training
                     score += math.log(self.word_probabilities[label][word])
-                else: # If word was NOT seen in training (an "unseen word")
+                else: # If word was NOT seen in training (unseen word")
                     # use a smoothed probability for unseen words to avoid log(0) errors.
                     # This calculation uses stored total_words_per_class_for_unseen and the overall vocabulary size.
                     unseen_word_numerator = self.alpha # Only alpha in numerator for unseen words
@@ -88,32 +88,6 @@ class SimpleMultinomialNB:
                     score += math.log(unseen_word_prob)
             scores[label] = score
 
-        # Find class with highest score ( most likely class)
+        # Find class with highest score (most likely class)
         predicted_class = max(scores, key=scores.get)
         return predicted_class
-
-
-#region --- Let's make Bayes learn and guess! ---
-
-# # 1. Provide Bayes' study material (our training data)
-# training_messages = [
-#     "I love this good day",
-#     "This is a good fun game",
-#     "I hate this bad game",
-#     "This day is bad"
-# ]
-# training_labels = ["Happy", "Happy", "Sad", "Sad"]
-
-# # 2. Create our Bayes robot (an instance of our classifier) and teach him!
-# bayes_robot = SimpleMultinomialNB()
-# bayes_robot.train(training_messages, training_labels)
-
-# # 3. Give Bayes new messages to guess their sentiment
-# new_message_1 = "This is a bad day"
-# new_message_2 = "I love a good game"
-# new_message_3 = "Today is fun" # This message includes "Today", which wasn't in training messages.
-
-# print(f"Message: '{new_message_1}' is predicted as: {bayes_robot.predict(new_message_1)}")
-# print(f"Message: '{new_message_2}' is predicted as: {bayes_robot.predict(new_message_2)}")
-# print(f"Message: '{new_message_3}' is predicted as: {bayes_robot.predict(new_message_3)}")
-#endregion

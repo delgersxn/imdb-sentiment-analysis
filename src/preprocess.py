@@ -1,11 +1,11 @@
-from nltk.corpus import stopwords                # Imports the list of English stopwords from NLTK
-from nltk.stem import PorterStemmer              # Imports the Porter stemming algorithm from NLTK
-from nltk.tokenize import word_tokenize          # Imports the word tokenizer from NLTK
+from nltk.corpus import stopwords               
+from nltk.stem import PorterStemmer           
+from nltk.tokenize import word_tokenize         
 
-stop_words = set(stopwords.words('english'))     # Loads the set of English stopwords
-stemmer = PorterStemmer()                        # Creates a PorterStemmer object
+stop_words = set(stopwords.words('english'))    
+stemmer = PorterStemmer()                     
 
-def preprocess_text(text):                       # Defines a function to preprocess a single text string
+def preprocess_text(text):                      
     tokens = word_tokenize(text.lower())         # Converts text to lowercase and tokenizes into words 
     tokens = [t for t in tokens if t.isalpha()]  # Keeps only alphabetic tokens (removes punctuation/numbers)
     tokens = [t for t in tokens if t not in stop_words] # Removes stopwords from tokens (only keeps meaningful words)

@@ -1,7 +1,7 @@
-import os                                        # Imports the os module for file operations
-import pandas as pd                              # Imports pandas for data handling
+import os                                        # file operations
+import pandas as pd                              # data handling
 
-def load_imdb_data(data_dir):                    # Defines a function to load IMDB data from a directory
+def load_imdb_data(data_dir):                    
     data = {"review": [], "sentiment": []}       # Initializes empty lists for reviews and sentiments
     for sentiment in ["pos", "neg"]:             # Loops over positive and negative folders
         path = os.path.join(data_dir, sentiment) # Builds the path to the sentiment folder

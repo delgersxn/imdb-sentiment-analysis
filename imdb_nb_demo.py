@@ -2,19 +2,9 @@ import os
 import time
 import pandas as pd
 from src.ourMultinomialNB import SimpleMultinomialNB
+from src.load_data import load_imdb_data  
 
 start_time = time.time()
-# Load IMDb data
-def load_imdb_data(data_dir):
-    data = {"review": [], "sentiment": []}
-    for sentiment in ["pos", "neg"]:
-        path = os.path.join(data_dir, sentiment)
-        label = "Positive" if sentiment == "pos" else "Negative"
-        for filename in os.listdir(path):
-            with open(os.path.join(path, filename), encoding='utf-8') as f:
-                data["review"].append(f.read())
-                data["sentiment"].append(label)
-    return pd.DataFrame(data)
 
 # Load and shuffle data
 train_df = load_imdb_data("data/aclImdb/train")

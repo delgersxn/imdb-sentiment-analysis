@@ -19,7 +19,7 @@ train_df['review'] = train_df['review'].apply(preprocess_text)
 test_df['review'] = test_df['review'].apply(preprocess_text) 
 
 print("Training model...") # on training data
-train_model(train_df['review'], train_df['sentiment'])           
+clf, vectorizer = train_model(train_df['review'], train_df['sentiment'])    
 
 print("Evaluating model...") # on test data
 evaluate_model(test_df['review'], test_df['sentiment'])          
@@ -30,7 +30,6 @@ print(f"\nTotal time : {int(minutes)} minutes {seconds:.2f} seconds")
 
 
 print("Generating confusion matrix...")
-clf, vectorizer = train_model(train_df['review'], train_df['sentiment'])
 X_test = vectorizer.transform(test_df['review'])
 y_pred = clf.predict(X_test)
 cm = confusion_matrix(test_df['sentiment'], y_pred)
