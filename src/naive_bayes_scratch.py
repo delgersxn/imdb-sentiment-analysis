@@ -1,6 +1,5 @@
 import math
 
-
 class build_scratch_nb:
     def __init__(self, alpha=1.0):
         self.alpha = alpha
@@ -25,19 +24,16 @@ class build_scratch_nb:
 
         for words, label in zip(processed, labels):
             class_counts[label] = class_counts.get(label, 0) + 1
-            total_words_in_class[label] = total_words_in_class.get(
-                label, 0) + len(words)
+            total_words_in_class[label] = total_words_in_class.get(label, 0) + len(words)
             word_counts_in_class.setdefault(label, {})
             for w in words:
-                word_counts_in_class[label][w] = word_counts_in_class[label].get(
-                    w, 0) + 1
+                word_counts_in_class[label][w] = word_counts_in_class[label].get(w, 0) + 1
 
         for label in class_counts:
             self.class_priors[label] = class_counts[label] / num_messages
             self.word_prob[label] = {}
             self.total_words_per_class_for_unseen[label] = total_words_in_class[label]
-            denom = total_words_in_class[label] + \
-                self.alpha * unique_words_count
+            denom = total_words_in_class[label] + self.alpha * unique_words_count
 
             for w in self.vocab:
                 numer = word_counts_in_class[label].get(w, 0) + self.alpha
