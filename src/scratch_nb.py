@@ -62,8 +62,3 @@ class build_scratch_nb:
                 scores[label] = score
             preds.append(max(scores, key=scores.get))
         return preds
-
-    def score(self, messages, labels):
-        preds = self.predict(messages)
-        correct = sum(p == y for p, y in zip(preds, labels))
-        return correct / len(labels)
